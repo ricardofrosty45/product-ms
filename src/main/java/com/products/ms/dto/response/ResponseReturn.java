@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ResponseErrorReturn {
+public class ResponseReturn {
 	
 	@JsonProperty(value="status_code")
     private int status;
