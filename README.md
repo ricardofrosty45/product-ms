@@ -50,8 +50,8 @@ http://localhost:9999/v1/healthcheck
 ## Anotações do DEV
 
 A unica anotação que deixarei aqui é sobre o endpoint **v1/products/search**
-Já que estou usando o mongo, poderia fazer um @Query para poder ja filtar em uma consulta só
-usando algumas funções do mongodb  usando **Projections e Aggregations**, mas não obtive sucesso.
+Já que estou usando o mongo, poderia fazer um @Query para poder ja filtrar em uma consulta só o max e min e com consulta com o name e description
+usando algumas funções do mongodb chamada **Projections e Aggregations**, mas não obtive sucesso.
 Então o que sobrou foi fazer um filtro na mão mesmo com ranges informados.
 O projeto localmente esta configurado para a porta 9999 como foi dito
 
