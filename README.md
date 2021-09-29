@@ -1,4 +1,4 @@
-# Productms - A Product Microservice
+# Product-ms - A Product Microservice
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/ricardofrosty45/product-ms)
 
