@@ -101,8 +101,7 @@ public class ProductRestController {
 
 	@Operation(summary = "Find product with filters", description = "This endpoint will find a product and filter it by a max and min range and q must be equals to the name and description.", tags = {
 			"Product" })
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "204", description = "No Content"),
+	@ApiResponses(value = { @ApiResponse(responseCode = "204", description = "No Content"),
 			@ApiResponse(responseCode = "200", description = "Ok", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductEntity.class)))) })
 	@GetMapping("/search")
 	public ResponseEntity<?> getProductWithFilters(@RequestParam(value = "q", required = false) String q,
@@ -114,6 +113,13 @@ public class ProductRestController {
 			return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(service.getProductWithFilter(q, minPrice, maxPrice), HttpStatus.OK);
+	}
+
+	@Operation(summary = "Health Check", description = "This endpoint is a healthcheck of the ms", tags = { "Product" })
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Ok") })
+	@GetMapping("/healthcheck")
+	public ResponseEntity<?> heathCheckEndpoint() {
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }
