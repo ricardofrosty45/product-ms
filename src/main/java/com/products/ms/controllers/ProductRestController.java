@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.products.ms.dto.request.ProductRequest;
+import com.products.ms.dto.response.HealthCheckResponse;
 import com.products.ms.dto.response.ResponseReturn;
 import com.products.ms.entity.ProductEntity;
 import com.products.ms.service.ProductService;
@@ -101,8 +102,7 @@ public class ProductRestController {
 
 	@Operation(summary = "Find product with filters", description = "This endpoint will find a product and filter it by a max and min range and q must be equals to the name and description.", tags = {
 			"Product" })
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "204", description = "No Content"),
+	@ApiResponses(value = { @ApiResponse(responseCode = "204", description = "No Content"),
 			@ApiResponse(responseCode = "200", description = "Ok", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductEntity.class)))) })
 	@GetMapping("/search")
 	public ResponseEntity<?> getProductWithFilters(@RequestParam(value = "q", required = false) String q,
@@ -115,5 +115,4 @@ public class ProductRestController {
 		}
 		return new ResponseEntity<>(service.getProductWithFilter(q, minPrice, maxPrice), HttpStatus.OK);
 	}
-
 }
