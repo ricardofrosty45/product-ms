@@ -1,14 +1,17 @@
 package com.products.ms.service;
 
+import java.math.BigDecimal;
 import java.net.ConnectException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.mongodb.MongoSocketOpenException;
@@ -17,6 +20,7 @@ import com.products.ms.dto.response.ResponseReturn;
 import com.products.ms.entity.ProductEntity;
 import com.products.ms.exception.DatabaseException;
 import com.products.ms.repository.ProductRepository;
+import com.products.ms.util.DatabaseFilterUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,6 +76,13 @@ public class ProductService {
 		repository.delete(resultDataBase.get());
 
 		return ResponseReturn.builder().status(200).message("Product was deleted!").build();
+	}
+
+	@Retryable(include = { IllegalArgumentException.class, ConnectException.class,
+			MongoSocketOpenException.class }, maxAttempts = 5, backoff = @Backoff(delay = 2000))
+	public List<ProductEntity> getProductWithFilter(String q, BigDecimal minPrice, BigDecimal maxPrice) {
+		return DatabaseFilterUtil.applyParamsFilterIntoDatabaseResult(repository.findAll(), q, minPrice, maxPrice);
+
 	}
 
 	private void checkIfProductExistsIntoDatabase(Optional<ProductEntity> resultDataBase) {
