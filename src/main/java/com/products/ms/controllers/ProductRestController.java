@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.products.ms.dto.request.ProductRequest;
+import com.products.ms.dto.response.HealthCheckResponse;
 import com.products.ms.dto.response.ResponseReturn;
 import com.products.ms.entity.ProductEntity;
 import com.products.ms.service.ProductService;
@@ -114,12 +115,4 @@ public class ProductRestController {
 		}
 		return new ResponseEntity<>(service.getProductWithFilter(q, minPrice, maxPrice), HttpStatus.OK);
 	}
-
-	@Operation(summary = "Health Check", description = "This endpoint is a healthcheck of the ms", tags = { "Product" })
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Ok") })
-	@GetMapping("/healthcheck")
-	public ResponseEntity<?> heathCheckEndpoint() {
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
 }
