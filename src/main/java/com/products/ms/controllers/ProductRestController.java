@@ -2,6 +2,9 @@ package com.products.ms.controllers;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.products.ms.dto.request.ProductRequest;
@@ -93,6 +97,23 @@ public class ProductRestController {
 	public ResponseEntity<?> deleteProductById(
 			@Valid @NotNull(message = "Id cannot be null") @NotBlank(message = "Id cannot be empty, please inform us a Id") @PathVariable("id") String id) {
 		return new ResponseEntity<>(service.deleteProductIntoDatabase(id), HttpStatus.OK);
+	}
+
+	@Operation(summary = "Find product with filters", description = "This endpoint will find a product and filter it by a max and min range and q must be equals to the name and description.", tags = {
+			"Product" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "No Content"),
+			@ApiResponse(responseCode = "200", description = "Ok", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductEntity.class)))) })
+	@GetMapping("/search")
+	public ResponseEntity<?> getProductWithFilters(@RequestParam(value = "q", required = false) String q,
+			@RequestParam(value = "min_price", required = false) BigDecimal minPrice,
+			@RequestParam(value = "max_price", required = false) BigDecimal maxPrice) {
+
+		List<ProductEntity> result = service.getProductWithFilter(q, minPrice, maxPrice);
+		if (result.isEmpty()) {
+			return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(service.getProductWithFilter(q, minPrice, maxPrice), HttpStatus.OK);
 	}
 
 }

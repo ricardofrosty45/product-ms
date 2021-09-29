@@ -7,6 +7,4 @@ import com.products.ms.entity.ProductEntity;
 
 @Repository
 public interface ProductRepository extends MongoRepository<ProductEntity, String> {
-
-
 }
