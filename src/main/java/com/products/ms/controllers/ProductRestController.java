@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.products.ms.dto.request.ProductRequest;
-import com.products.ms.dto.response.HealthCheckResponse;
 import com.products.ms.dto.response.ResponseReturn;
 import com.products.ms.entity.ProductEntity;
 import com.products.ms.service.ProductService;
@@ -113,6 +112,6 @@ public class ProductRestController {
 		if (result.isEmpty()) {
 			return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(service.getProductWithFilter(q, minPrice, maxPrice), HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 }
